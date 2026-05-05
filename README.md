@@ -2,6 +2,7 @@
 
 **Python · DuckDB · SQL · pandas · scikit-learn · XGBoost · Prophet · seaborn**
 
+This project simulates a real-world revenue analysis for a product/growth analytics role.
 47,000+ transactions · 5,000+ customers · April 2024 – October 2025 · 10 countries
 
 B2B/B2C software reseller — Microsoft, Adobe, Salesforce and others.
@@ -37,7 +38,7 @@ All three revenue drivers stalled simultaneously after May 2024. This is a struc
 | May 2024 | 1,998 | 1.38 | $613 | $1.69M |
 | Jun 2024 onward | ~1,950 | ~1.35 | ~$640 | ~$1.72M |
 
-The May jump was driven entirely by 3x user growth — AOV actually fell. Since June 2024 all three drivers are flat. To grow: the business must move at least one driver deliberately.
+The May jump was driven entirely by 3x user growth — AOV actually fell. Since June 2024 all three drivers are flat. To grow: the business needs to deliberately influence at least one driver to restart growth.
 
 Each driver has a different fix: users → acquisition; orders/user → engagement and lifecycle; AOV → pricing structure and upsell. Without this decomposition, teams apply the wrong fix.
 
@@ -121,15 +122,15 @@ KMeans (4 clusters) on Recency, Frequency, Monetary:
 | 1 | 3–18 | up to $11K | Lower engagement |
 
 **XGBoost model** return prediction trained on early customer behavior (frequency, revenue, product breadth in first observation window). Used directionally to identify key drivers of return behavior — not as a deployment-ready churn model.
-**Accuracy: 50.25% ROC AUC: 67.57%**
+**ROC AUC: 67.57%**
 ---
 
 ## Time Series Forecast (Prophet)
 
 3-month revenue forecast by top channels. `yearly_seasonality=False` — 18 months of data is insufficient for reliable annual seasonality. `changepoint_prior_scale=0.3` allows the model to follow the plateau without overfitting short-term noise.
 ![Revenue_Forecasst](images/revenue_forecast.png)
-If all channels forecast downward: the plateau has become a structural decline.
-If one channel forecasts recovery while others decline: that channel is the acquisition priority for next quarter.
+
+Forecast is used as a directional signal to detect structural changes rather than to predict exact revenue values
 
 ---
 
