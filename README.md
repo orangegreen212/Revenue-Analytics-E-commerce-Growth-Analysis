@@ -1,73 +1,246 @@
 # Revenue Analytics: E-commerce Growth Analysis
 
-**Stack:** Python · DuckDB · SQL · pandas · scikit-learn · seaborn · Jupyter  
-**Data:** 47,000+ transactions · 5,000+ customers · 18 months · 10 countries
+**Python · DuckDB · SQL · pandas · scikit-learn · Prophet · seaborn**
+
+47,000+ transactions · 5,000+ customers · April 2024 – October 2025 · 10 countries
+
+B2B/B2C software reseller — Microsoft, Adobe, Salesforce and others.
+Annual subscriptions, monthly subscriptions, one-time licenses across Website, Affiliate, Paid Search, Organic, Social, Retail Media, Email.
+
+**Limitations:** the dataset does not include acquisition cost (CAC), so channel efficiency is evaluated on revenue and retention only — not full unit economics.
 
 ---
 
-## English Version
+## What this project answers
 
-### Project Overview
-47,000+ transactions · 5,000+ customers · April 2024 – October 2025 · 10 countries · 5 channels
-B2B/B2C software reseller — Microsoft, Adobe, Salesforce, Notion, Tableau and others.
-Products: annual subscriptions, monthly subscriptions, one-time licenses.
-Channels: Website, Affiliate, Paid Search, Organic, Social, Retail Media, Email.
-Markets: US, UK, Canada, Australia, Germany, France, Spain, Netherlands, Philippines, Brazil.
-
-### Key Insights
-*   **The Growth Bottleneck:** Revenue peaked in mid-2024 because user growth, order frequency, and average order value all leveled off at the same time. This is not a seasonal dip, but a structural limit.
-*   **The ARPU Paradox:** All channels show a similar average order value ($647–$690). However, the Website channel drives 3x the revenue per user ($3,558) compared to Partners ($1,132). The growth isn't in the size of the first order, but in repeat purchase behavior.
-*   **The Activation Problem:** Nearly half of our new customers (49%) don't come back after their first month. Improving our onboarding process to keep just 15% more of these customers would result in an extra $783,000 in annual revenue per cohort without additional ad spend.
-*   **High-Cost Churn:** Our "Enterprise" segment acquired via Paid Search is failing, with a 47.6% churn rate. We are spending the most to acquire these customers, but they are the least loyal.
-
-### Visual Analysis
-![Monthly Net Revenue](images/monthly_revenue.png) ![Refund Rate by Category and Country](images/refund_heatmap.png)
-![Retention](images/retention.png)
-
-### Strategic Recommendations
-1.  **Shift Budget:** Move 25% of the budget from Paid Search for Enterprise to the Website and Affiliate channels, which have proven long-term value.
-2.  **Fix Refund Hotspots:** We lose money in specific country/product combinations (e.g., Services in the UK, Monitoring in Germany). Instead of changing prices, we must fix the product messaging to match customer expectations.
-3.  **Proactive Renewal Management:** Since 88% of our revenue is annual subscriptions, we are at risk of a "renewal cliff." I recommend tracking the Renewal-to-New revenue ratio as our most important monthly metric.
-4.  **Protect High-Value Customers:** Use our RFM segmentation to identify high-revenue customers ($15k+) and assign them dedicated support 60 days before their subscription ends.
-
-### Revenue Forecasting & Trend Analysis
-![Revenue Forecast](images/revenue_forecast.png)
-*   **Methodology:** I implemented **Facebook Prophet** to model monthly revenue trends across key acquisition channels.
-*   **The Insight:** The model identifies a clear divergence between the historical growth trend and the actual performance observed in late 2025. 
-*   **Business Impact:** The "forecast" highlights that even with historical growth patterns, the current performance is underperforming the baseline. This is a quantitative proof that the business needs an immediate strategic pivot rather than waiting for "seasonal recovery."
+- Where did revenue stall — and which driver caused it?
+- Which channels bring customers worth keeping?
+- Where is money leaking silently?
+- What should the business prioritize next quarter?
 
 ---
 
-## Tools & Methods
-*   **DuckDB + SQL:** High-performance data aggregation for cohort and funnel analysis.
-*   **Prophet (Meta):** Time series forecasting to model revenue trends, account for seasonality, and identify growth gaps.
-*   **scikit-learn:** RFM clustering (KMeans) for customer segmentation and Random Forest for churn prediction (77.9% accuracy).
-*   **pandas & seaborn:** Data cleaning, cohort matrix construction, and advanced visualization.
----
+## Revenue Overview
 
-## Українська версія
+![Monthly Net Revenue](chart_monthly_revenue.png)
 
-### Огляд проекту
-Цей проект — глибокий аналіз доходів реселера програмного забезпечення. Після швидкого росту на початку 2024 року бізнес вийшов на плато, яке тривало 14 місяців. Моєю метою було не просто зробити звіт, а знайти конкретні причини цієї стагнації та запропонувати план дій.
-
-### Основні висновки
-*   **Проблема росту:** Дохід перестав зростати, тому що зупинилися всі три головні драйвери: притік нових користувачів, частота покупок та середній чек. Це структурна проблема, а не сезонність.
-*   **Парадокс ARPU:** Середній чек у всіх каналах майже однаковий ($647–$690). Проте канал Website приносить втричі більше доходу на одного клієнта ($3,558), ніж партнерські канали ($1,132). Ріст криється в тому, що клієнти вебсайту повертаються частіше.
-*   **Проблема онбордингу:** 49% клієнтів не повертаються після першого місяця. Якщо ми покращимо процес активації та втримаємо хоча б на 15% більше клієнтів, це принесе додаткові $783,000 річного доходу без витрат на рекламу.
-*   **Відтік Enterprise:** Ми витрачаємо найбільше на залучення Enterprise-клієнтів через платний пошук, але вони мають найвищий відтік — 47.6%. Ця стратегія зараз збиткова.
-
-### Стратегічні рекомендації
-1.  **Перерозподіл бюджету:** Варто забрати 25% бюджету з Paid Search і перенаправити на Website та Affiliate, які показують найкраще утримання.
-2.  **Виправлення помилок:** Високий рівень рефандів у певних країнах (наприклад, UK або Німеччина) вказує на те, що клієнти очікують від продукту не того, що отримують. Потрібно змінити опис продукту, а не ціну.
-3.  **Управління підписками:** Оскільки 88% нашого доходу — це річні підписки, ми ризикуємо зіткнутися з різким падінням доходу через 6-12 місяців, якщо не почнемо відстежувати поновлення зараз.
-4.  **Фокус на цінних клієнтах:** Потрібно виділити топ-клієнтів (дохід $15k+ на клієнта) і працювати з ними персонально за 60 днів до закінчення терміну підписки.
+$487K (Apr 2024) → $1.69M (May 2024) → **14-month plateau** → $1.20M (Oct 2025).
+All three revenue drivers stalled simultaneously after May 2024. This is a structural growth problem, not a seasonal dip.
 
 ---
 
-### Tools & Methods
-*   **DuckDB + SQL:** Використовував SQL всередині Python для швидкої обробки великих масивів даних.
-*   **RFM-сегментація:** KMeans кластеризація для виділення найцінніших клієнтів.
-*   **Прогнозування:** Random Forest модель для прогнозування відтоку клієнтів (точність 77.9%).
-*   **Revenue Decomposition:** Моделювання доходу через формулу (Користувачі × Частота × Чек) для пошуку точок стагнації.
+## Revenue Decomposition: Revenue = Users × Orders/User × AOV
+
+![Revenue Drivers](chart_decomposition.png)
+
+| Month | Users | Orders/User | AOV | Revenue |
+|---|---|---|---|---|
+| Apr 2024 | 680 | 1.10 | $652 | $487K |
+| May 2024 | 1,998 | 1.38 | $613 | $1.69M |
+| Jun 2024 onward | ~1,950 | ~1.35 | ~$640 | ~$1.72M |
+
+The May jump was driven entirely by 3x user growth — AOV actually fell. Since June 2024 all three drivers are flat. To grow: the business must move at least one driver deliberately.
+
+Each driver has a different fix: users → acquisition; orders/user → engagement and lifecycle; AOV → pricing structure and upsell. Without this decomposition, teams apply the wrong fix.
+
+---
+
+## Channel Quality: AOV vs ARPU
+
+| Channel | AOV | ARPU |
+|---|---|---|
+| Website | $670 | **$3,559** |
+| Direct Sales | $650 | $1,703 |
+| Marketplace | $690 | $1,169 |
+| Partner | $663 | $1,132 |
+
+AOV range across all channels: $42. Channels look identical on AOV — they are not. Website ARPU is 3.1x Partner because Website customers return more often.
+
+**Why ARPU can grow while the business is dying:** if low-ARPU customers churn first and only high-ARPU customers remain, average ARPU rises while total customer count and revenue fall. Always read ARPU alongside customer volume.
+
+---
+
+## Cohort Retention
+
+April 2024 cohort: **695 signups → 352 in Month 1 (50.6%)**. Stabilizes ~50–55% from Month 3.
+
+Customers who survive 60 days tend to stay — the problem is activation, not product.
+Improving Month 1 retention from 51% to 65% = ~220 extra retained customers per cohort × $3,559 ARPU = **$783K additional annual revenue per cohort with zero acquisition spend.**
+
+---
+
+## Churn by Channel and Segment
+
+![Churn Rate](chart_churn.png)
+
+| Channel | Segment | Churn Rate |
+|---|---|---|
+| Paid Search | Enterprise | **47.6%** |
+| Social | Enterprise | **47.1%** |
+| Affiliate | Enterprise | **16.7%** |
+| Organic | SMB | **19.8%** |
+
+Same segment, same product — 3x difference in churn by channel. Paid Search and Social attract Enterprise customers who were never the right fit.
+
+---
+
+## LTV by Channel and Segment
+
+![LTV by Channel](chart_ltv_by_channel.png)
+
+Top combinations by avg LTV: Affiliate/LATAM/SOHO ($21,451), Organic/LATAM/Enterprise ($18,178), Affiliate/EU/Enterprise ($11,981). Paid Search and Social do not appear in the top 10.
+
+---
+
+## Where We Lose Money
+
+![Refund Heatmap](chart_refund_heatmap.png)
+
+| Problem | Scale | Recoverable? |
+|---|---|---|
+| Paid Search + Social Enterprise churn 47%+ | High CAC, fast exit | Yes — retarget or cut spend |
+| Month 1 retention failure (49% lost) | Largest single growth lever | Yes — onboarding fix |
+| Services / UK / Direct Sales refunds | $4,150 direct loss | Yes — fix product listing |
+| Support / Philippines / Marketplace refunds | $5,727 direct loss | Yes — fix or remove |
+| Adobe Firefly / Canada / Reseller refunds | $5,674 direct loss | Yes — fix or remove |
+| Discount program (LTV impact unmeasured) | ~$1.1M lower AOV | Measure before next campaign |
+
+Discounts: 16,614 orders (35% of volume) at avg 10.73% discount, AOV $619 vs $688 full-price. Whether discounted customers renew at the same rate is unknown — if they don't, this is a revenue leak disguised as a sales metric.
+
+---
+
+## RFM Segmentation
+
+![RFM Clusters](chart_rfm_clusters.png)
+
+KMeans (4 clusters) on Recency, Frequency, Monetary:
+
+| Cluster | Orders | Revenue | Priority |
+|---|---|---|---|
+| 3 | 10–25 | $15K–$38K | Retain at any cost |
+| 0 | 5–10 | $8K–$15K | Keep engaged |
+| 2 | 5–10 | $2K–$8K | Monitor for inactivity |
+| 1 | 3–18 | up to $11K | Lower engagement |
+
+Random Forest return prediction trained on early customer behavior (frequency, revenue, product breadth in first observation window). Used directionally to identify key drivers of return behavior — not as a deployment-ready churn model.
+
+---
+
+## Time Series Forecast (Prophet)
+
+3-month revenue forecast by top channels. `yearly_seasonality=False` — 18 months of data is insufficient for reliable annual seasonality. `changepoint_prior_scale=0.3` allows the model to follow the plateau without overfitting short-term noise.
+
+If all channels forecast downward: the plateau has become a structural decline.
+If one channel forecasts recovery while others decline: that channel is the acquisition priority for next quarter.
+
+---
+
+## Business Recommendations
+
+**1. Shift 20–30% of Paid Search budget to Affiliate and Website**
+Affiliate Enterprise churn = 16.7% vs 47.6% for Paid Search. Website ARPU = $3,559 vs $1,703.
+*Trade-off: Affiliate may not scale as fast as Paid Search — volume may drop short-term while LTV improves.*
+
+**2. Fix Month 1 onboarding before the next acquisition campaign**
+695 → 352 in Month 1. Fixing activation before scaling acquisition avoids pouring budget into a leaking funnel.
+
+**3. Audit discounts before the next campaign**
+Measure 90-day LTV: discounted vs full-price customers from the last 6 months. If discounted customers churn faster — cap discounts to annual upgrade offers only.
+*Trade-off: reducing discounts may hurt short-term order volume before the LTV benefit is visible.*
+
+**4. Fix or remove top-3 refund combinations**
+Services/UK ($4,150), Support/Philippines ($5,727), Adobe Firefly/Canada ($5,674). Fix product listing and onboarding. If unfixable in one sprint — pull from that channel.
+
+**5. Proactive retention for Cluster 3**
+Renewal outreach 60 days before contract end. In an annual subscription business, the decision to leave is made months before it shows in data.
+
+**6. Track three leading indicators monthly — not total revenue**
+Annual subscriptions = 88% of revenue. Problems hide for 6–12 months in the revenue line. Track instead:
+renewal-to-new revenue ratio · Month 1 retention rate · Cluster 3 customer count.
+
+---
+
+## Stack
+
+| Tool | Purpose |
+|---|---|
+| DuckDB + SQL | All aggregations, cohort queries, segmentation |
+| pandas | Data cleaning, RFM scoring, cohort matrix |
+| Prophet | Monthly revenue forecast by channel, 3-month horizon |
+| seaborn / matplotlib | All visualizations |
+| scikit-learn KMeans | RFM customer clustering |
+| scikit-learn Random Forest | Return behavior driver analysis |
+
+---
+
+*Dataset: DataDNA Dataset Challenge — E-commerce Dataset, November 2025*
+
+---
+---
+
+# Revenue Analytics: Аналіз зростання e-commerce
+
+**Python · DuckDB · SQL · pandas · scikit-learn · Prophet · seaborn**
+
+47,000+ транзакцій · 5,000+ клієнтів · квітень 2024 – жовтень 2025 · 10 країн
+
+B2B/B2C реселер ПЗ — Microsoft, Adobe, Salesforce та інші. Річні підписки, місячні підписки, разові ліцензії.
+
+**Обмеження:** датасет не містить вартості залучення (CAC) — ефективність каналів оцінюється за revenue і retention, не за повною unit economics.
+
+---
+
+## Ключові числа
+
+| Метрика | Значення |
+|---|---|
+| Revenue Apr 2024 → May 2024 | $487K → $1.69M (3.5x за місяць) |
+| Плато після травня 2024 | 14 місяців без зростання |
+| Website ARPU vs Partner ARPU | $3,559 vs $1,132 (3.1x різниця) |
+| Paid Search Enterprise churn | **47.6%** |
+| Affiliate Enterprise churn | **16.7%** |
+| Month 1 retention | **50.6%** — 49% нових клієнтів йдуть за перший місяць |
+| Annual subscriptions | **88% revenue** ($28.1M з $31.8M) |
+| Найбільший refund leak | Support/Philippines: $5,727 (15.4% refund rate) |
+
+---
+
+## Revenue = Users × Orders/User × AOV
+
+Стрибок у травні 2024 — виключно за рахунок 3x growth users. AOV впав. З червня всі три драйвери стоять. Без навмисного руху хоча б одного — revenue продовжить стагнувати.
+
+---
+
+## Де губляться гроші
+
+- **Paid Search + Social Enterprise:** churn 47%+ при найвищому CAC
+- **Month 1 retention:** 695 → 352. Виправлення з 51% до 65% = $783K додаткового revenue на когорту без витрат на залучення
+- **Refunds:** Services/UK $4,150 · Support/Philippines $5,727 · Adobe Firefly/Canada $5,674 — конкретні product-country комбінації, виправляються зміною listing або онбордингу
+- **Знижки:** 16,614 замовлень, AOV $619 vs $688, вплив на LTV не виміряний
+
+---
+
+## Бізнес-рекомендації
+
+**1. Перенести 20–30% бюджету з Paid Search → Affiliate і Website**
+Affiliate Enterprise churn 16.7% vs 47.6%. Website ARPU $3,559 vs $1,703.
+*Trade-off: Affiliate може не масштабуватися так само швидко — обсяг короткостроково впаде.*
+
+**2. Виправити онбординг місяця 1 перед наступною acquisition-кампанією**
+Налити більше бюджету в дірявий онбординг = множити втрати.
+
+**3. Виміряти 90-денний LTV дисконтованих клієнтів перед наступною знижковою кампанією**
+*Trade-off: скорочення знижок може знизити обсяг замовлень короткостроково.*
+
+**4. Виправити або прибрати топ-3 refund комбінації**
+Services/UK, Support/Philippines, Adobe Firefly/Canada. Якщо не виправляється за один спринт — прибрати з каналу.
+
+**5. Проактивне retention для Cluster 3 ($15K–$38K revenue)**
+Контакт за 60 днів до кінця контракту. В річній моделі рішення піти приймається задовго до того, як воно видно в даних.
+
+**6. Три leading indicators замість total revenue**
+Renewal-to-new ratio · Month 1 retention · Cluster 3 count. Total revenue ховає проблеми на 6–12 місяців в річній subscription моделі.
+
+---
 
 *Dataset: DataDNA Dataset Challenge — E-commerce Dataset, November 2025*
