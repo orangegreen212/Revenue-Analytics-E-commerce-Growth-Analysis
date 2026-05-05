@@ -22,6 +22,7 @@ Markets: US, UK, Canada, Australia, Germany, France, Spain, Netherlands, Philipp
 
 ### Visual Analysis
 ![Monthly Net Revenue](images/monthly_revenue.png) ![Refund Rate by Category and Country](images/refund_heatmap.png)
+![Retention](images/retention.png)
 
 ### Strategic Recommendations
 1.  **Shift Budget:** Move 25% of the budget from Paid Search for Enterprise to the Website and Affiliate channels, which have proven long-term value.
@@ -30,7 +31,7 @@ Markets: US, UK, Canada, Australia, Germany, France, Spain, Netherlands, Philipp
 4.  **Protect High-Value Customers:** Use our RFM segmentation to identify high-revenue customers ($15k+) and assign them dedicated support 60 days before their subscription ends.
 
 ### Revenue Forecasting & Trend Analysis
-![Revenue Forecast](images/images/revenue_forecast.png)
+![Revenue Forecast](images/revenue_forecast.png)
 *   **Methodology:** I implemented **Facebook Prophet** to model monthly revenue trends across key acquisition channels.
 *   **The Insight:** The model identifies a clear divergence between the historical growth trend and the actual performance observed in late 2025. 
 *   **Business Impact:** The "forecast" highlights that even with historical growth patterns, the current performance is underperforming the baseline. This is a quantitative proof that the business needs an immediate strategic pivot rather than waiting for "seasonal recovery."
