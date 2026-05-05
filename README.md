@@ -1,6 +1,6 @@
 # Revenue Analytics: E-commerce Growth Analysis
 
-**Python · DuckDB · SQL · pandas · scikit-learn · Prophet · seaborn**
+**Python · DuckDB · SQL · pandas · scikit-learn · XGBoost · Prophet · seaborn**
 
 47,000+ transactions · 5,000+ customers · April 2024 – October 2025 · 10 countries
 
@@ -22,7 +22,7 @@ Annual subscriptions, monthly subscriptions, one-time licenses across Website, A
 
 ## Revenue Overview
 
-![Monthly Net Revenue](chart_monthly_revenue.png)
+![Monthly Net Revenue](images/monthly_revenue.png)
 
 $487K (Apr 2024) → $1.69M (May 2024) → **14-month plateau** → $1.20M (Oct 2025).
 All three revenue drivers stalled simultaneously after May 2024. This is a structural growth problem, not a seasonal dip.
@@ -30,8 +30,6 @@ All three revenue drivers stalled simultaneously after May 2024. This is a struc
 ---
 
 ## Revenue Decomposition: Revenue = Users × Orders/User × AOV
-
-![Revenue Drivers](chart_decomposition.png)
 
 | Month | Users | Orders/User | AOV | Revenue |
 |---|---|---|---|---|
@@ -61,7 +59,7 @@ AOV range across all channels: $42. Channels look identical on AOV — they are 
 ---
 
 ## Cohort Retention
-
+![Retention Cohort](images/retention.png)
 April 2024 cohort: **695 signups → 352 in Month 1 (50.6%)**. Stabilizes ~50–55% from Month 3.
 
 Customers who survive 60 days tend to stay — the problem is activation, not product.
@@ -71,7 +69,7 @@ Improving Month 1 retention from 51% to 65% = ~220 extra retained customers per 
 
 ## Churn by Channel and Segment
 
-![Churn Rate](chart_churn.png)
+![Churn Rate](images/churn.png)
 
 | Channel | Segment | Churn Rate |
 |---|---|---|
@@ -86,7 +84,7 @@ Same segment, same product — 3x difference in churn by channel. Paid Search an
 
 ## LTV by Channel and Segment
 
-![LTV by Channel](chart_ltv_by_channel.png)
+![LTV by Channel](images/ltv_channel.png)
 
 Top combinations by avg LTV: Affiliate/LATAM/SOHO ($21,451), Organic/LATAM/Enterprise ($18,178), Affiliate/EU/Enterprise ($11,981). Paid Search and Social do not appear in the top 10.
 
@@ -94,7 +92,7 @@ Top combinations by avg LTV: Affiliate/LATAM/SOHO ($21,451), Organic/LATAM/Enter
 
 ## Where We Lose Money
 
-![Refund Heatmap](chart_refund_heatmap.png)
+![Refund Heatmap](images/refund_heatmap.png)
 
 | Problem | Scale | Recoverable? |
 |---|---|---|
@@ -111,7 +109,7 @@ Discounts: 16,614 orders (35% of volume) at avg 10.73% discount, AOV $619 vs $68
 
 ## RFM Segmentation
 
-![RFM Clusters](chart_rfm_clusters.png)
+![RFM Clusters](images/clusters.png)
 
 KMeans (4 clusters) on Recency, Frequency, Monetary:
 
@@ -122,14 +120,14 @@ KMeans (4 clusters) on Recency, Frequency, Monetary:
 | 2 | 5–10 | $2K–$8K | Monitor for inactivity |
 | 1 | 3–18 | up to $11K | Lower engagement |
 
-Random Forest return prediction trained on early customer behavior (frequency, revenue, product breadth in first observation window). Used directionally to identify key drivers of return behavior — not as a deployment-ready churn model.
-
+**XGBoost model** return prediction trained on early customer behavior (frequency, revenue, product breadth in first observation window). Used directionally to identify key drivers of return behavior — not as a deployment-ready churn model.
+**Accuracy: 50.25% ROC AUC: 67.57%**
 ---
 
 ## Time Series Forecast (Prophet)
 
 3-month revenue forecast by top channels. `yearly_seasonality=False` — 18 months of data is insufficient for reliable annual seasonality. `changepoint_prior_scale=0.3` allows the model to follow the plateau without overfitting short-term noise.
-
+![Revenue_Forecasst](images/revenue_forecast.png)
 If all channels forecast downward: the plateau has become a structural decline.
 If one channel forecasts recovery while others decline: that channel is the acquisition priority for next quarter.
 
@@ -169,7 +167,7 @@ renewal-to-new revenue ratio · Month 1 retention rate · Cluster 3 customer cou
 | Prophet | Monthly revenue forecast by channel, 3-month horizon |
 | seaborn / matplotlib | All visualizations |
 | scikit-learn KMeans | RFM customer clustering |
-| scikit-learn Random Forest | Return behavior driver analysis |
+| scikit-learn XGBoost | Return behavior driver analysis |
 
 ---
 
